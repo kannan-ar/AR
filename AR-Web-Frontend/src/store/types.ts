@@ -1,3 +1,4 @@
 export default interface RootState {
-    isEditMode: Boolean
+    isEditMode: boolean;
+    currentPageId: number;
 }

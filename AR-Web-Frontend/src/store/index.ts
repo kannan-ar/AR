@@ -5,16 +5,19 @@ import RootState from './types'
 Vue.use(Vuex)
 
 const mutations: MutationTree<RootState> = {
-    changeState: (state) => (state.isEditMode = !state.isEditMode)
+    changeState: (state) => (state.isEditMode = !state.isEditMode),
+    setCurrentPageId: (state, {currentPageId}) => (state.currentPageId = currentPageId)
 }
 
 const getters: GetterTree<RootState, RootState> = {
-    isEditMode: state => state.isEditMode
+    isEditMode: state => state.isEditMode,
+    currentPageId: state => state.currentPageId
 }
 
 const storeOptions: StoreOptions<RootState> = {
     state: {
-        isEditMode: false
+        isEditMode: false,
+        currentPageId: -1
     },
     getters,
     mutations

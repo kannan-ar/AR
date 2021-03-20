@@ -1,11 +1,11 @@
 import { Component } from 'vue';
 
 interface IndexedCollection {
-  Id: Number
+  Id: number;
 }
 interface Cell extends IndexedCollection  {
   Component: Component;
-  HasValue: Boolean;
+  HasValue: boolean;
 }
 
 interface Column extends IndexedCollection {
@@ -13,10 +13,10 @@ interface Column extends IndexedCollection {
 }
 
 interface Row extends IndexedCollection {
-  Columns: Column[]
+  Columns: Column[];
 }
 
 interface Layout {
-  Rows: Row[]
+  Rows: Row[];
 }
 export { IndexedCollection, Layout, Row, Column, Cell }
