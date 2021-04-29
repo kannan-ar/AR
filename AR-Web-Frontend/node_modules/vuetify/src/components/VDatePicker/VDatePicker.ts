@@ -19,6 +19,7 @@ import {
   createItemTypeListeners,
   createNativeLocaleFormatter,
   pad,
+  sanitizeDateString,
 } from './util'
 
 // Types
@@ -40,13 +41,6 @@ type DatePickerValue = string | string[] | undefined
 interface Formatters {
   year: DatePickerFormatter
   titleDate: DatePickerFormatter | DatePickerMultipleFormatter
-}
-
-// Adds leading zero to month/day if necessary, returns 'YYYY' if type = 'year',
-// 'YYYY-MM' if 'month' and 'YYYY-MM-DD' if 'date'
-function sanitizeDateString (dateString: string, type: 'date' | 'month' | 'year'): string {
-  const [year, month = 1, date = 1] = dateString.split('-')
-  return `${year}-${pad(month)}-${pad(date)}`.substr(0, { date: 10, month: 7, year: 4 }[type])
 }
 
 export default mixins(
@@ -121,6 +115,7 @@ export default mixins(
       type: String,
       default: '$vuetify.datePicker.itemsSelected',
     },
+    showAdjacentMonths: Boolean,
     showWeek: Boolean,
     // Function formatting currently selected date in the picker title
     titleDateFormat: Function as PropType<DatePickerFormatter | DatePickerMultipleFormatter | undefined>,
@@ -269,9 +264,10 @@ export default mixins(
       this.checkMultipleProp()
       this.setInputDate()
 
-      if (!this.isMultiple && this.value && !this.pickerDate) {
-        this.tableDate = sanitizeDateString(this.inputDate, this.type === 'month' ? 'year' : 'month')
-      } else if (this.isMultiple && this.multipleValue.length && (!oldValue || !(oldValue as string[]).length) && !this.pickerDate) {
+      if (
+        (!this.isMultiple && this.value && !this.pickerDate) ||
+        (this.isMultiple && this.multipleValue.length && (!oldValue || !oldValue.length) && !this.pickerDate)
+      ) {
         this.tableDate = sanitizeDateString(this.inputDate, this.type === 'month' ? 'year' : 'month')
       }
     },
@@ -427,6 +423,7 @@ export default mixins(
           range: this.range,
           readonly: this.readonly,
           scrollable: this.scrollable,
+          showAdjacentMonths: this.showAdjacentMonths,
           showWeek: this.showWeek,
           tableDate: `${pad(this.tableYear, 4)}-${pad(this.tableMonth + 1)}`,
           value: this.value,
