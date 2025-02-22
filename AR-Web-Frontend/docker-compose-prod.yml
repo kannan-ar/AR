@@ -1,7 +1,0 @@
-version: '3'
-
-services:
-    kannanar-prod:
-        image: kannanar/dev:latest
-        ports: 
-            - '80:80'
