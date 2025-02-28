@@ -21,13 +21,14 @@ jobs:
     steps:
       - id: main
         run: |
-          echo ::set-output name=version::$(echo ${GITHUB_SHA} | cut -c1-7)
-          echo ::set-output name=image::ui-service
-          echo ::set-output name=repository::ghcr.io/kannan-ar
+          echo "version=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_OUTPUT
+          echo "image=ui-service" >> $GITHUB_OUTPUT
+          echo "repository=ghcr.io/kannan-ar" >> $GITHUB_OUTPUT
   package-service:
     name: Package Service
     runs-on: ubuntu-latest
     environment: ${{ github.ref == 'refs/heads/main' && 'production' || github.ref == 'refs/heads/develop' && 'develop' || 'qa' }}
+    needs: set-env
     steps:
       - name: Checkout
         uses: actions/checkout@v2
