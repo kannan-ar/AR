@@ -55,7 +55,7 @@ jobs:
       - name: Update deployment yaml
         uses: fjogeleit/yaml-update-action@master
         with:
-          valueFile: 'manifests/ui.yaml'
+          valueFile: 'manifests/base/deployments/ui.yaml'
           propertyPath: 'spec.template.spec.containers.0.image'
           value: ${{ needs.set-env.outputs.repository }}/${{ needs.set-env.outputs.image }}:${{ needs.set-env.outputs.version }}
           commitChange: 'false'
@@ -63,3 +63,17 @@ jobs:
           message: 'Updated ui deployment manifest.'
           createPR: 'false'
           updateFile: 'true'
+      - name: Echo yaml
+        run: |
+          cat manifests/base/deployments/ui.yaml
+      - name: Promote deployment
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env: 
+          API_TOKEN_GITHUB: ${{ secrets.CR_PAT }}
+        with:
+          source_file: manifests/base/deployments/ui.yaml
+          destination_repo: AR/ar-demo
+          destination_folder: manifests/base/deployments
+          git_server: github.com
+          user_email: kannanpala@gmail.com
+          user_name: kannan-ar
