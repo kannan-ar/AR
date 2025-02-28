@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.main.outputs.version }}
-      project: ${{ steps.main.outputs.project }}
+      image: ${{ steps.main.outputs.image }}
       repository: ${{ steps.main.outputs.repository }}
     steps:
       - id: main
