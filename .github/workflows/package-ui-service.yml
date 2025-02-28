@@ -1,0 +1,65 @@
+name: package-ui-service
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+    paths:
+      - 'src/ui-service/**'
+      
+  workflow_dispatch:
+
+jobs:
+  set-env:
+    name: Set Environment Variables
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.main.outputs.version }}
+      project: ${{ steps.main.outputs.project }}
+      repository: ${{ steps.main.outputs.repository }}
+    steps:
+      - id: main
+        run: |
+          echo ::set-output name=version::$(echo ${GITHUB_SHA} | cut -c1-7)
+          echo ::set-output name=image::ui-service
+          echo ::set-output name=repository::ghcr.io/kannan-ar
+  package-service:
+    name: Package Service
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || github.ref == 'refs/heads/develop' && 'develop' || 'qa' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_PAT }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: src/ui-service/Dockerfile
+          push: true
+          tags: |
+            ${{ needs.set-env.outputs.repository }}/${{ needs.set-env.outputs.image }}:latest
+            ${{ needs.set-env.outputs.repository }}/${{ needs.set-env.outputs.image }}:${{ needs.set-env.outputs.version }}
+          build-args: |
+            CLIENT_ID=${{ vars.CLIENT_ID }}
+            AUTHORITY=${{ vars.AUTHORITY }}
+            REDIRECT_URI=${{ vars.REDIRECT_URI }}
+      - name: Update deployment yaml
+        uses: fjogeleit/yaml-update-action@master
+        with:
+          valueFile: 'manifests/ui.yaml'
+          propertyPath: 'spec.template.spec.containers.0.image'
+          value: ${{ needs.set-env.outputs.repository }}/${{ needs.set-env.outputs.image }}:${{ needs.set-env.outputs.version }}
+          commitChange: 'false'
+          branch: 'master'
+          message: 'Updated ui deployment manifest.'
+          createPR: 'false'
+          updateFile: 'true'
