@@ -17,7 +17,7 @@ RUN npm run build --prod
 
 FROM nginx:latest AS serve
 COPY --from=build /app/dist/ui-service /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY /app/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
