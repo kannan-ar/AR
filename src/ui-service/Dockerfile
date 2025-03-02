@@ -3,7 +3,7 @@ FROM node:18 AS build
 WORKDIR /app
 COPY . .
 WORKDIR "/app/src/ui-service"
-#COPY package*.json ./
+
 RUN npm install
 ARG CLIENT_ID=""
 ARG AUTHORITY=""
@@ -13,7 +13,7 @@ RUN sed -i \
     -e "s|clientId: '.*'|clientId: '${CLIENT_ID}'|" \
     -e "s|authority: '.*'|authority: '${AUTHORITY}'|" \
     -e "s|redirectUri: '.*'|redirectUri: '${REDIRECT_URI}'|" \
-     /app/src/environments/environment.ts
+     /src/environments/environment.ts
 RUN npm run build --prod
 
 FROM nginx:latest AS serve
