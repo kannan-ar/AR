@@ -1,9 +1,10 @@
 FROM node:18 AS build
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
 COPY . .
+WORKDIR "/app/ui-service"
+#COPY package*.json ./
+RUN npm install
 ARG CLIENT_ID=""
 ARG AUTHORITY=""
 ARG REDIRECT_URI=""
