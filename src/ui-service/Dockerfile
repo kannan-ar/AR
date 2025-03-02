@@ -2,7 +2,7 @@ FROM node:18 AS build
 
 WORKDIR /app
 COPY . .
-WORKDIR "/app/ui-service"
+WORKDIR "/app/src/ui-service"
 #COPY package*.json ./
 RUN npm install
 ARG CLIENT_ID=""
