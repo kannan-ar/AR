@@ -13,7 +13,7 @@ RUN sed -i \
     -e "s|clientId: '.*'|clientId: '${CLIENT_ID}'|" \
     -e "s|authority: '.*'|authority: '${AUTHORITY}'|" \
     -e "s|redirectUri: '.*'|redirectUri: '${REDIRECT_URI}'|" \
-     /src/environments/environment.ts
+    /app/src/ui-service/src/environments/environment.ts
 RUN npm run build --prod
 
 FROM nginx:latest AS serve
