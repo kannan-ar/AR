@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "version=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_OUTPUT
           echo "image=ui-service" >> $GITHUB_OUTPUT
-          echo "repository=ghcr.io/kannan-ar" >> $GITHUB_OUTPUT
+          echo "repository=ghcr.io/kannan-ar/ar-packages" >> $GITHUB_OUTPUT
   package-service:
     name: Package Service
     runs-on: ubuntu-latest
@@ -73,7 +73,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.CR_PAT }}
         with:
           source_file: manifests/base/deployments/ui.yaml
-          destination_repo: AR/ar-demo
+          destination_repo: AR/ar-packages
           destination_folder: manifests/base/deployments
           git_server: github.com
           user_email: kannanpala@gmail.com
