@@ -73,7 +73,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.CR_PAT }}
         with:
           source_file: manifests/base/deployments/ui.yaml
-          destination_repo: AR/Code-Samples
+          destination_repo: kannan-ar/Code-Samples
           destination_folder: manifests/base/deployments
           git_server: github.com
           user_email: kannanpala@gmail.com
