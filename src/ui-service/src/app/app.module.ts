@@ -42,13 +42,13 @@ const msalConfig = environment.mslConfig;
       {
         interactionType: InteractionType.Redirect,
         authRequest: {
-          scopes: ["user.read"],
+          scopes: ["Ad.App"],
         },
       },
       {
         interactionType: InteractionType.Redirect,
         protectedResourceMap: new Map([
-          ["https://graph.microsoft.com/v1.0/me", ["user.read"]]
+          ["http://localhost:8080/*", ["api://e07f4d1a-35f9-409b-92e7-70e789b8577b/Ad.App"]]
         ]),
       }
     )
