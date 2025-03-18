@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { PasswordService } from '../services/password.service';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +7,4 @@ import { PasswordService } from '../services/password.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-
-  constructor(private passwordService: PasswordService) { }
-
-  ngOnInit(): void {
-    this.passwordService.getPosts().subscribe(x => {
-      console.log(x);
-    });
-  }
-
 }
