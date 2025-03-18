@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/password-manager/api/obj
+/src/password-manager/bin/Debug
+/src/password-manager/obj
+/src/password-manager/.vs
+/src/password-manager/api/bin/Debug/net8.0

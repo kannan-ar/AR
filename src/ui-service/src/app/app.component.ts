@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
+import { AuthenticationResult, EventMessage, EventType, InteractionStatus } from '@azure/msal-browser';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { AuthService } from './services/auth.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,12 @@ export class AppComponent {
 
   loginStatus: boolean = false;
   private readonly _destroying$ = new Subject<void>();
+  userName: string = "";
 
   title = 'ui-service';
+
+  private msalConfig = environment.mslConfig;
+  private apiScopes = [this.msalConfig.apiScope];
 
   constructor(
     private broadcastService: MsalBroadcastService,
@@ -29,7 +34,6 @@ export class AppComponent {
       )
       .subscribe((result: EventMessage) => {
         if (this.msalService.instance.getAllAccounts().length === 0) {
-          // Redirect to Login page
           this.route.navigate(['/login']);
         } else {
           this.setLoginDisplay();
@@ -48,25 +52,35 @@ export class AppComponent {
 
   setLoginDisplay() {
     this.loginStatus = this.msalService.instance.getAllAccounts().length > 0;
-
     if (this.loginStatus) {
       const profile_data = this.msalService.instance.getAllAccounts()[0];
-      this.msalService.instance.setActiveAccount(profile_data)
+      this.userName = profile_data.username;
+      this.msalService.instance.setActiveAccount(profile_data);
+      this.route.navigate(['/']);
     } else {
-      console.log("Not logged-in");
-      // Redirect to Login page
-      this.route.navigate(['/login']);
+      //this.route.navigate(['/login']);
     }
-
   }
 
+  setAuthToken() {
+    this.msalService.instance.acquireTokenSilent({
+      account: this.msalService.instance.getActiveAccount()!,
+      scopes: this.apiScopes
+    }).then((response: AuthenticationResult) => {
+      localStorage.setItem('auth_token', response.accessToken);
+    });
+  }
 
   ngOnDestroy(): void {
     this._destroying$.next(undefined);
     this._destroying$.complete();
   }
 
-  MsLogout() {
+  msLogout() {
     this.authService.microsoftLogout();
+  }
+
+  isLoggedIn() {
+    return this.authService.checkLoginStatus();
   }
 }

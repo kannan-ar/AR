@@ -1,0 +1,21 @@
+version: '3.4'
+name: ar
+
+services:
+  password-manager:
+    image: ${DOCKER_REGISTRY-}api
+    container_name: password-manager
+    build:
+      context: api
+      dockerfile: Dockerfile
+
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    restart: always
+    container_name: mongo-container
+
+volumes:
+  mongo-data:

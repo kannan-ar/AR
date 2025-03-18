@@ -8,7 +8,9 @@ import { RedirectRequest } from '@azure/msal-browser';
 export class AuthService {
   profile: any;
 
-  constructor(@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration, private msalService: MsalService) { }
+  constructor(
+    @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration, 
+    private msalService: MsalService) { }
 
   getUserDetails() {
     const profileData = this.msalService.instance.getAllAccounts()[0];
@@ -22,6 +24,11 @@ export class AuthService {
     } else {
       this.msalService.loginRedirect();
     }
+  }
+
+  checkLoginStatus(): boolean {
+    const account = this.msalService.instance.getActiveAccount();
+    return !!account;
   }
 
   microsoftLogout() {

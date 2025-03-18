@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MsalModule, MsalRedirectComponent, MsalGuard, MsalInterceptor } from "@azure/msal-angular";
+import { MsalModule, MsalRedirectComponent, MsalGuard, MsalInterceptor, MsalService } from "@azure/msal-angular";
 import { PublicClientApplication, InteractionType } from "@azure/msal-browser";
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule  } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +26,7 @@ const msalConfig = environment.mslConfig;
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MsalModule.forRoot(
       new PublicClientApplication({
         auth: {
@@ -57,9 +58,12 @@ const msalConfig = environment.mslConfig;
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,
       multi: true,
-    },
-    MsalGuard
+    }
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(private msalService: MsalService) {
+    this.msalService.instance.initialize(); // Initialize the MSAL instance
+  }
+}

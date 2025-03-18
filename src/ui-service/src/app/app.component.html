@@ -1,4 +1,6 @@
-<div>
-    <button (click)="MsLogout()">Log out</button>
+<div class="header">
+    <span>{{userName}}</span>&nbsp;
+    <a *ngIf="loginStatus" href="#" (click)="msLogout()">Log out</a>
 </div>
+<hr />
 <router-outlet></router-outlet>

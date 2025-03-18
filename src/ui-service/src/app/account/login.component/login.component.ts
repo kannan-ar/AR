@@ -10,7 +10,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent {
   constructor(private authService: AuthService) {}
 
-  MsLogin() {
+  msLogin() {
     this.authService.microsoftLogin();
+  }
+
+  isLoggedIn() {
+    return this.authService.checkLoginStatus();
   }
 }
