@@ -1,7 +1,6 @@
 ﻿using Api.Data;
 using Api.Models;
 using Api.ViewModels;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,39 +9,41 @@ namespace Api.Controllers
     [Authorize]
     [Route("[controller]")]
     [ApiController]
-    public class PasswordController(
-        IPasswordService passwordService,
-        IMapper mapper) : ControllerBase
+    public class CredentialController(
+        ICredentialService passwordService) : ControllerBase
     {
 
-        [HttpGet]
-        [Route("[action]")]
-        [ProducesResponseType(typeof(IEnumerable<CredentialVM>), 200)]
-        public async Task<IActionResult> Get()
+        [HttpGet("[action]/{id}")]
+        [ProducesResponseType(typeof(CredentialVM), 200)]
+        public async Task<IActionResult> Get(string id)
         {
-            var items = await passwordService.GetAsync();
-            return Ok(mapper.Map<IEnumerable<CredentialVM>>(items));
+            return Ok(await passwordService.GetAsync(id));
         }
 
-        [HttpPost]
-        [Route("[action]")]
+        [HttpGet("[action]")]
+        [ProducesResponseType(typeof(IEnumerable<CredentialVM>), 200)]
+        public IAsyncEnumerable<CredentialVM> Get()
+        {
+            return passwordService.GetAsync();
+        }
+
+        [HttpPost("[action]")]
         public async Task<IActionResult> Create(CreateUpdateCredentialVM vm)
         {
-            await passwordService.CreateAsync(mapper.Map<Credential>(vm));
+            await passwordService.CreateAsync(vm);
+
             return Ok(vm);
         }
 
-        [HttpPut]
-        [Route("[action]/{id}")]
+        [HttpPut("[action]/{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] CreateUpdateCredentialVM vm)
         {
-            var result = await passwordService.UpdateAsync(id, mapper.Map<Credential>(vm));
+            var result = await passwordService.UpdateAsync(id, vm);
 
             return (result == DbResult.OK) ? Ok(vm) : NotFound(id);
         }
 
-        [HttpDelete]
-        [Route("[action]/{id}")]
+        [HttpDelete("[action]/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var result = await passwordService.RemoveAsync(id);

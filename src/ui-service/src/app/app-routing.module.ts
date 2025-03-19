@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
 import { LoginComponent } from './account/login.component/login.component';
 import { HomeComponent } from './home/home.component';
-import { ListComponent } from './password/list/list.component';
+import { ListCredentialComponent } from './credential/list/list-credential.component';
 
 const routes: Routes = [
   {
@@ -12,8 +12,8 @@ const routes: Routes = [
     canActivate: [MsalGuard]
   },
   {
-    path: 'password',
-    component: ListComponent,
+    path: 'credentials',
+    component: ListCredentialComponent,
     canActivate: [MsalGuard]
   },
   {

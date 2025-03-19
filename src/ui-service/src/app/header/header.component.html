@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+    <span>AR</span>
+    
+    <span class="spacer"></span>
+  
+    <div class="user-info" *ngIf="isLoggedIn()">
+      <span>{{ userName }}</span>
+      <button mat-button (click)="logout()">Logout</button>
+    </div>
+    <a class="user-info" *ngIf="!isLoggedIn()" href="#" (click)="msLogin()">Login</a>
+  </mat-toolbar>

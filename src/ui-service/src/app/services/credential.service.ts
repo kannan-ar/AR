@@ -8,13 +8,13 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class PasswordService {
+export class CredentialService {
 
-  private passwordService = environment.passwordService;
+  private credentialService = environment.credentialService;
   constructor(
     private http: HttpClient) { }
 
   getPosts(): Observable<any> {
-    return this.http.get<any>(`${this.passwordService.url}/password/get`);
+    return this.http.get<any>(`${this.credentialService.url}/credential/get`);
   }
 }

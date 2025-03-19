@@ -26,8 +26,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDB"));
+builder.Services.Configure<ConfigSettings>(builder.Configuration);
 
-builder.Services.AddSingleton<IPasswordService, PasswordService>();
+builder.Services.AddSingleton<ICredentialService, CredentialService>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));

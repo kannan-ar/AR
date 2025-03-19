@@ -10,6 +10,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,23 +21,25 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './account/login.component/login.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CreateComponent } from './password/create/create.component';
-import { ListComponent } from './password/list/list.component';
+import { ManageCredentialComponent } from './credential/manage/manage-credential.component';
+import { ListCredentialComponent } from './credential/list/list-credential.component';
+import { HeaderComponent } from './header/header.component';
 
 const isIE =
   window.navigator.userAgent.indexOf("MSIE ") > -1 ||
   window.navigator.userAgent.indexOf("Trident/") > -1;
 
 const msalConfig = environment.mslConfig;
-const passwordService = environment.passwordService;
+const credentialService = environment.credentialService;
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    CreateComponent,
-    ListComponent
+    ManageCredentialComponent,
+    ListCredentialComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +51,9 @@ const passwordService = environment.passwordService;
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
     MsalModule.forRoot(
       new PublicClientApplication({
         auth: {
@@ -67,7 +75,7 @@ const passwordService = environment.passwordService;
       {
         interactionType: InteractionType.Redirect,
         protectedResourceMap: new Map([
-          [`${passwordService.url}/*`, [msalConfig.apiScope]]
+          [`${credentialService.url}/*`, [msalConfig.apiScope]]
         ]),
       }
     ),

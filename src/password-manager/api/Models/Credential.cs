@@ -14,5 +14,8 @@ namespace Api.Models
 
         [BsonElement("Password")]
         public string Password { get; set; } = string.Empty;
+
+        [BsonElement("Salt")]
+        public string Salt { get; set; } = string.Empty;
     }
 }

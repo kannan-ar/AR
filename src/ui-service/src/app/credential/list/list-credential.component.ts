@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 
-import { PasswordService } from '../../services/password.service';
+import { CredentialService } from '../../services/credential.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateComponent } from '../create/create.component';
+import { ManageCredentialComponent } from '../manage/manage-credential.component';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  selector: 'list-credential',
+  templateUrl: './list-credential.component.html',
+  styleUrls: ['./list-credential.component.scss']
 })
-export class ListComponent {
+export class ListCredentialComponent {
   credentials: Credential[] = [];
   displayedColumns: any[] = ['userName', 'password', 'actions'];
   constructor(
-    private passwordService: PasswordService,
+    private credentialService: CredentialService,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.passwordService.getPosts().subscribe({
+    this.credentialService.getPosts().subscribe({
       next: (credentials) => {
         this.credentials = credentials;
       }
@@ -33,7 +33,7 @@ export class ListComponent {
   }
 
   openLoginModal(): void {
-    const dialogRef = this.dialog.open(CreateComponent, {
+    const dialogRef = this.dialog.open(ManageCredentialComponent, {
       width: '400px',
       disableClose: true  // Prevent closing without action
     });

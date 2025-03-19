@@ -3,15 +3,15 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  selector: 'manage-credential',
+  templateUrl: './manage-credential.component.html',
+  styleUrls: ['./manage-credential.component.scss']
 })
-export class CreateComponent {
+export class ManageCredentialComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private dialogRef: MatDialogRef<CreateComponent>) {}
+  constructor(private dialogRef: MatDialogRef<ManageCredentialComponent>) {}
 
   onCancel(): void {
     this.dialogRef.close();

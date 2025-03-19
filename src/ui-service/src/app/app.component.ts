@@ -34,7 +34,7 @@ export class AppComponent {
       )
       .subscribe((result: EventMessage) => {
         if (this.msalService.instance.getAllAccounts().length === 0) {
-          this.route.navigate(['/login']);
+          //this.route.navigate(['/login']);
         } else {
           this.setLoginDisplay();
         }
@@ -56,9 +56,7 @@ export class AppComponent {
       const profile_data = this.msalService.instance.getAllAccounts()[0];
       this.userName = profile_data.username;
       this.msalService.instance.setActiveAccount(profile_data);
-      this.route.navigate(['/']);
-    } else {
-      //this.route.navigate(['/login']);
+      //this.route.navigate(['/']);
     }
   }
 
