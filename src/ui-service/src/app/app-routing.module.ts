@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [MsalGuard]
+    //canActivate: [MsalGuard]
   },
   {
     path: 'credentials',

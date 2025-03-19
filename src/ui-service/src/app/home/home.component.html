@@ -1,1 +1,25 @@
-<a routerLink="/credentials">Credentials</a>
+  <div class="grid-container">
+    <mat-grid-list
+      [cols]="gridCols"
+      rowHeight="200px"
+      gutterSize="16px"
+    >
+      <mat-grid-tile
+        *ngFor="let tile of tiles"
+        [colspan]="tile.cols"
+        [rowspan]="tile.rows"
+        class="grid-tile"
+      >
+        <mat-card class="card" *ngIf="(!tile.authRequired) || (tile.authRequired && isLoggedIn())">
+          <mat-card-header>
+            <mat-card-title>{{ tile.title }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            {{ tile.content }}
+            <br>
+            <a [routerLink]="tile.link" class="tile-link">Go</a>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>

@@ -1,0 +1,27 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .header-title {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Spacing between icon and text */
+    cursor: pointer; /* Indicate clickable behavior */
+  
+    &:hover {
+      text-decoration: underline; /* Optional: Visual feedback */
+    }
+  }

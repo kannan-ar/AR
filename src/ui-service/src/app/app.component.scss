@@ -1,4 +1,12 @@
 .header {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: flex-end;
+}
+
+.content {
+    height: calc(100vh - 64px);
+
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
 }
