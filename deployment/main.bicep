@@ -23,7 +23,7 @@ module containerAppsEnvModule 'modules/capps-env.bicep' = {
   }
 }
 
-module orderServiceModule 'modules/container-apps/auth-service.bicep' = {
+module orderServiceModule 'modules/container-apps/password-service.bicep' = {
   name: '${deployment().name}--auth-service'
   dependsOn: []
   params: {

@@ -15,7 +15,7 @@ resource orderService 'Microsoft.App/containerApps@2022-11-01-preview' = {
     template: {
       containers: [
         {
-          name: 'auth-service'
+          name: 'password-service'
           image: 'ghcr.io/azure/reddog-retail-demo/reddog-retail-order-service:latest'
           probes: [
             {
@@ -37,7 +37,7 @@ resource orderService 'Microsoft.App/containerApps@2022-11-01-preview' = {
     configuration: {
       dapr: {
         enabled: true
-        appId: 'order-service'
+        appId: 'password-service'
         appPort: 80
         appProtocol: 'http'
       }
